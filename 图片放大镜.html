@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+    *{
+        margin: 0;
+        padding: 0;
+    }
+    .wrapper{
+        width: 1010px;
+        height: 300px;
+        margin: 100px auto;
+    }
+    .wrapper .left{
+        position: relative;
+        float: left;
+        width: 500px;
+        height: 300px;
+        margin-right: 10px;
+        box-shadow: 10px 10px 15px #ccc;
+    }
+    .wrapper .left img{
+        width: 100%;
+        height: 100%;
+    }
+    .wrapper .left .choose{
+        width: 250px;
+        height: 150px;
+        background-color:rgba(12,12,12,0.2);
+        position: absolute;
+        left: 0px;
+        top:0px;
+        display: none;
+        cursor: pointer;
+    }
+    .wrapper .right{
+        position: relative;
+        float: left;
+        width: 500px;
+        height: 300px;
+        overflow: hidden;
+    }
+    .wrapper .right img{
+        position: absolute;
+        width: 200%;
+        height: 200%;
+        display: none;
+        
+    }
+    </style>
+</head>
+<body>
+    <div class="wrapper">
+        <div class="left"><img src="img/4.png" alt="">
+        <div class="choose"></div>
+        </div>
+        <div class="right"><img src="img/4.png" alt=""></div>
+    </div>
+    <script src="jquery.js"></script>
+    <!-- jquery刚开始 -->
+    <script>
+        var $choose = $(".choose")[0];
+        var $left = $(".left")[0];
+        var $leftImg = $(".left img")[0];
+        var $rightImg = $(".right img")[0];
+        var $right = $(".right")[0]; 
+        console.log($left.offsetLeft);
+        function getPosition(event){
+            var e = event || window.event;
+            var top = e.clientY - $left.offsetTop - $choose.offsetHeight/2;
+            var left = e.clientX - $left.offsetLeft - $choose.offsetWidth/2;
+            var maxleft = $left.offsetWidth - $choose.offsetWidth;
+            var maxtop = $left.offsetHeight - $choose.offsetHeight;
+            var minleft = 0;
+            var mintop = 0;
+            var mvleft;
+            var mvtop;
+            mvtop = top > maxtop ? maxtop : (top < mintop ? mintop : top);
+            mvleft = left > maxleft ? maxleft : (left < minleft ? minleft : left);
+            
+            $rightImg.style.left = - mvleft*2 + "px",
+            $rightImg.style.top = - mvtop*2 + "px"
+          
+            $choose.style.left = mvleft + "px";
+            $choose.style.top = mvtop + "px";
+        }
+
+        $left.onmousemove = function(e){
+            getPosition(e);
+            $rightImg.style.display = "inline-block";
+            $choose.style.display = "inline-block"
+        }
+        $left.onmouseleave = function(e){
+            $rightImg.style.display = "none";
+            $choose.style.display = "none";
+        }
+    </script>
+</body>
+</html>
